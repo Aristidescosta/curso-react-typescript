@@ -1,9 +1,10 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-
+import { Button } from "@mui/material"
+ 
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/pagina-inicial" element={<h1>Página principal da rota</h1>} />
+      <Route path="/pagina-inicial" element={<Button variant="contained" color="primary">Novo teste do Material</Button>} />
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>
   );
