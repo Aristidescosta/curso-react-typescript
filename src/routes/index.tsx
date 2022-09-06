@@ -1,11 +1,11 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Button } from "@mui/material";
-// import { useAppThemeContext } from "../shared/contexts/ThemeContext";
-import { useDrawerContext } from "../shared/contexts";
 import { useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import { useDrawerContext } from "../shared/contexts";
+import { Dashboard } from "../pages";
 
 export const AppRoutes = () => {
-  const { toggleDrawerOpen, setDrawerOptions } = useDrawerContext();
+  const { setDrawerOptions } = useDrawerContext();
   useEffect(() => {
     setDrawerOptions([
       {
@@ -20,23 +20,17 @@ export const AppRoutes = () => {
         path: "/pagina-star",
       },
     ]);
-  }, []);
+  }, [setDrawerOptions]);
 
   return (
     <Routes>
       <Route
         path="/pagina-inicial"
         element={
-          <Button
-            variant="contained"
-            onClick={toggleDrawerOpen}
-            color="primary"
-          >
-            Abrir menu lateral
-          </Button>
+          <Dashboard/>
         }
       />
-      {/* <Route path="*" element={<Navigate to="/pagina-inicial" />} /> */}
+      <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>
   );
 };
