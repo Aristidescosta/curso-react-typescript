@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, TextField, Paper, useTheme, Icon } from "@mui/material";
 
-interface IToolBarProps {
+interface IListingToolsProps {
   searchText?: string;
   showInputSearch?: boolean;
   whenChangingSearchText?: (newText: string) => void;
@@ -10,7 +10,7 @@ interface IToolBarProps {
   whenClickNew?: () => void;
 }
 
-export const ToolBar: React.FC<IToolBarProps> = ({
+export const ListingTools: React.FC<IListingToolsProps> = ({
   searchText = "",
   showInputSearch = false,
   whenChangingSearchText,
