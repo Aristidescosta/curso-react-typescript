@@ -8,20 +8,23 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { ReactNode } from "react";
-import { useDrawerContext } from "../contexts"
+import { useDrawerContext } from "../contexts";
 
 interface ILayoutBaseDePaginaProps {
   children: ReactNode;
   title: string;
+  toolBar: ReactNode;
 }
 
 export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
   children,
   title,
+  toolBar,
 }) => {
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+  const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
   const theme = useTheme();
-	const { toggleDrawerOpen } = useDrawerContext()
+  const { toggleDrawerOpen } = useDrawerContext();
 
   return (
     <Box height="100%" display="flex" flexDirection="column" gap={1}>
@@ -30,19 +33,28 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({
         display="flex"
         alignItems="center"
         gap={1}
-        height={theme.spacing(12)}
+        height={theme.spacing(smDown ? 6 : mdDown ? 8 : 12)}
       >
         {smDown && (
           <IconButton onClick={toggleDrawerOpen}>
             <Icon>menu</Icon>
           </IconButton>
         )}
-        <Typography variant="h5">{title}</Typography>
+        <Typography
+          variant={smDown ? "h5" : mdDown ? "h4" : "h3"}
+          whiteSpace="nowrap"
+          overflow="hidden"
+          textOverflow="elipses"
+        >
+          {title}
+        </Typography>
       </Box>
 
-      <Box>Barra de feramentas</Box>
+      {toolBar && <Box>{toolBar}</Box>}
 
-      <Box>{children}</Box>
+      <Box flex={1} overflow="auto">
+        {children}
+      </Box>
     </Box>
   );
 };
