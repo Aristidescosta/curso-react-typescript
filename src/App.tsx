@@ -1,7 +1,18 @@
-
+import { BrowserRouter } from "react-router-dom";
+import { AppRoutes } from "./routes";
+import { SideMenu } from "./shared/components";
+import { DrawerProvider, AppThemeProvider } from "./shared/contexts";
 
 export const App = () => {
   return (
-    <div><h1>Olá mundo</h1></div>
+    <AppThemeProvider>
+      <DrawerProvider>
+        <BrowserRouter>
+          <SideMenu>
+            <AppRoutes />
+          </SideMenu>
+        </BrowserRouter>
+      </DrawerProvider>
+    </AppThemeProvider>
   );
 };
