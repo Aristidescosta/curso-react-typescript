@@ -6,6 +6,8 @@ import {
   Icon,
   Divider,
   Skeleton,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { ReactNode } from "react";
 
@@ -53,6 +55,7 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
   whenClickingOnSaveAndBackButton,
 }) => {
   const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box
       component={Paper}
@@ -64,7 +67,7 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
       gap={1}
       alignItems="center"
     >
-      {(showSaveButton && !showSaveButtonLoading) && (
+      {showSaveButton && !showSaveButtonLoading && !mdDown && (
         <Button
           variant="contained"
           onClick={whenClickingOnSaveButton}
@@ -72,13 +75,15 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
           color="primary"
           startIcon={<Icon>save</Icon>}
         >
-          Salvar
+          <Typography noWrap variant="button">
+            Salvar
+          </Typography>
         </Button>
       )}
 
-      {showSaveButtonLoading && <Skeleton width={110} height={60} />}
+      {showSaveButtonLoading && !mdDown && <Skeleton width={110} height={60} />}
 
-      {(showSaveAndBackButton && !showSaveAndBackButtonLoading) && (
+      {showSaveAndBackButton && !showSaveAndBackButtonLoading && !mdDown && (
         <Button
           variant="outlined"
           onClick={whenClickingOnSaveAndBackButton}
@@ -86,13 +91,17 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
           color="primary"
           startIcon={<Icon>save</Icon>}
         >
-          Salvar e voltar
+          <Typography noWrap variant="button">
+            Salvar e voltar
+          </Typography>
         </Button>
       )}
 
-      {showSaveAndBackButtonLoading && <Skeleton width={180} height={60} />}
+      {showSaveAndBackButtonLoading && !mdDown && (
+        <Skeleton width={180} height={60} />
+      )}
 
-      {(showDeleteButton && !showDeleteButtonLoading) && (
+      {showDeleteButton && !showDeleteButtonLoading && (
         <Button
           variant="outlined"
           onClick={whenClickingOnDeleteButton}
@@ -100,13 +109,15 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
           color="primary"
           startIcon={<Icon>delete</Icon>}
         >
-          Apagar
+          <Typography noWrap variant="button">
+            Apagar
+          </Typography>
         </Button>
       )}
 
       {showDeleteButtonLoading && <Skeleton width={110} height={60} />}
 
-      {(showNewButton && !showNewButtonLoading) && (
+      {showNewButton && !showNewButtonLoading && (
         <Button
           variant="outlined"
           onClick={whenClickingOnNewButton}
@@ -114,13 +125,15 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
           color="primary"
           startIcon={<Icon>add</Icon>}
         >
-          {newButtonText}
+          <Typography noWrap variant="button">
+            {newButtonText}
+          </Typography>
         </Button>
       )}
 
       {showNewButtonLoading && <Skeleton width={110} height={60} />}
 
-      {(showBackButton && !showBackButtonLoading) && (
+      {showBackButton && !showBackButtonLoading && (
         <>
           <Divider variant="middle" orientation="vertical" />
 
@@ -130,8 +143,10 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
             disableElevation
             color="primary"
             startIcon={<Icon>arrow_back</Icon>}
-          >	
-            Voltar
+          >
+            <Typography noWrap variant="button">
+              Voltar
+            </Typography>
           </Button>
         </>
       )}
