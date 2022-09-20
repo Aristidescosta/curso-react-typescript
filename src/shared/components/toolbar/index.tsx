@@ -7,6 +7,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { Environment } from "../../environment";
 
 interface IToolbarProps {
   searchText?: string;
@@ -41,7 +42,7 @@ export const Toolbar: React.FC<IToolbarProps> = ({
           size="small"
           value={searchText}
           onChange={(e) => whenChangingSearchText?.(e.target.value)}
-          placeholder="Pesquisar"
+          placeholder={Environment.INPUT_DE_BUSCA}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
