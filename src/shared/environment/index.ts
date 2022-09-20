@@ -17,5 +17,5 @@ export const Environment = {
   /**
    * Define a URL base do projeto
    */
-  URL_BASE: "http://localhost:3001/",
+  URL_BASE: "http://localhost:3001",
 };
