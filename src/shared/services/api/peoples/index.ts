@@ -16,33 +16,90 @@ interface IPersonDetail {
 }
 
 type TPersonWithTotalCount = {
-	data: IPeopleListing;
-	totalCount: number;
-}
+  data: IPeopleListing;
+  totalCount: number;
+};
 
-const getAll = async (page = 1, filter = ""): Promise<TPersonWithTotalCount | Error> => {
+const getAll = async (
+  page = 1,
+  filter = ""
+): Promise<TPersonWithTotalCount | Error> => {
   try {
     const relativeUrl = `/peoples?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&fullName_like=${filter}`;
     const { data, headers } = await Api.get(relativeUrl);
-    if(data)
-		return {
-			data,
-			totalCount: Number(headers["x-total-count"]) || Environment.LIMITE_DE_LINHAS,
-		}
-		return new Error("Erro ao listar os registos")
+    if (data)
+      return {
+        data,
+        totalCount:
+          Number(headers["x-total-count"]) || Environment.LIMITE_DE_LINHAS,
+      };
+    return new Error("Erro ao listar os registos");
   } catch (error) {
-		console.error(error)
-		return new Error((error as {message: string}).message || "Erro ao listar os registos")
-	}
+    console.error(error);
+    return new Error(
+      (error as { message: string }).message || "Erro ao listar os registos"
+    );
+  }
 };
 
-const getById = async (): Promise<any> => {};
+const getById = async (id: number): Promise<IPersonDetail | Error> => {
+  try {
+    const { data } = await Api.get(`/peoples/${id}`);
+    if (data) return data;
+    return new Error("Erro ao listar os dados dessa pessoa");
+  } catch (error) {
+    console.error(error);
+    return new Error(
+      (error as { message: string }).message ||
+        "Houve um erro interno, tente novamente"
+    );
+  }
+};
 
-const create = async (): Promise<any> => {};
+const create = async (
+  dataPerson: Omit<IPersonDetail, "id">
+): Promise<number | Error> => {
+  try {
+    const { data } = await Api.post<IPersonDetail>("/peoples", dataPerson);
+    if (data) return data.id;
+    return new Error("Erro ao cadastrar essa pessoa");
+  } catch (error) {
+    console.error(error);
+    return new Error(
+      (error as { message: string }).message ||
+        "Houve um erro interno, tente novamente"
+    );
+  }
+};
 
-const updateById = async (): Promise<any> => {};
+const updateById = async (
+  dataPerson: IPersonDetail,
+	id: number
+): Promise<void | Error> => {
+  try {
+    await Api.put(`/peoples/${id}`, dataPerson);
+  } catch (error) {
+    console.error(error);
+    return new Error(
+      (error as { message: string }).message ||
+        "Houve um erro interno, tente novamente"
+    );
+  }
+};
 
-const deleteById = async (): Promise<any> => {};
+const deleteById = async (
+  id: number
+): Promise<void | Error> => {
+  try {
+    await Api.delete(`/peoples/${id}`);
+  } catch (error) {
+    console.error(error);
+    return new Error(
+      (error as { message: string }).message ||
+        "Houve um erro interno, tente novamente"
+    );
+  }
+};
 
 export const PeopleService = {
   getAll,
