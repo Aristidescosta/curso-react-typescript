@@ -1,2 +1,2 @@
 export * from "./dashboard/index"
-export * from "./citys/index"
+export * from "./peoples/index"

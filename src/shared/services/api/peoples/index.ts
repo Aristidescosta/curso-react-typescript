@@ -30,8 +30,7 @@ const getAll = async (
     if (data)
       return {
         data,
-        totalCount:
-          Number(headers["x-total-count"]) || Environment.LIMITE_DE_LINHAS,
+        totalCount: Number(headers["x-total-count"]) || data.length,
       };
     return new Error("Erro ao listar os registos");
   } catch (error) {
@@ -74,7 +73,7 @@ const create = async (
 
 const updateById = async (
   dataPerson: IPersonDetail,
-	id: number
+  id: number
 ): Promise<void | Error> => {
   try {
     await Api.put(`/peoples/${id}`, dataPerson);
@@ -87,9 +86,7 @@ const updateById = async (
   }
 };
 
-const deleteById = async (
-  id: number
-): Promise<void | Error> => {
+const deleteById = async (id: number): Promise<void | Error> => {
   try {
     await Api.delete(`/peoples/${id}`);
   } catch (error) {

@@ -1,18 +1,30 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 
 import { useSearchParams } from "react-router-dom";
 import { Toolbar } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
+import { PeopleService } from "../../shared/services/api/peoples";
 
-export const ListOfCities: React.FC = () => {
+export const ListOfPeople: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = useMemo(() => {
     return searchParams.get("search") || "";
   }, [searchParams]);
 
+  useEffect(() => {
+    PeopleService.getAll(1, search)
+    .then((result) => {
+      if(result instanceof Error) {
+        alert(result.message)
+        return 
+      }
+      else console.log(result)
+    })
+  }, [search])
+
   return (
     <BasePageLayout
-      title="Cidades"
+      title="Pessoas"
       toolbar={
         <Toolbar
           showSearchInput
@@ -22,7 +34,7 @@ export const ListOfCities: React.FC = () => {
         />
       }
     >
-      Teste de Cidades
+      Teste de Pessoas
     </BasePageLayout>
   );
 };
