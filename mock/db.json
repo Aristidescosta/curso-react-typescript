@@ -1,5 +1,22 @@
 {
-    "peoples":[
-        {"id": 0, "fullName": "Aristides Costa"}
-    ] 
+	"peoples":[
+		{
+			"id": 0, 
+			"fullName": "Aristides Costa", 
+			"email": "aristidiscosta200@gmail.com"
+		},
+
+		{
+			"id": 1, 
+			"fullName": "Adilson Miguel", 
+			"email": "adilsonmiguel@gmail.com"
+		},
+
+		{
+			"id": 2, 
+			"fullName": 
+			"Domingos Costa", 
+			"email": "domingoscosta@gmail.com"
+		}
+	] 
 }

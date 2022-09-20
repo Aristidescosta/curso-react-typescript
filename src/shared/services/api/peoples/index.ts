@@ -1,14 +1,14 @@
 import { Environment } from "../../../environment";
 import { Api } from "../axios-config";
 
-interface IPeopleListing {
+export interface IPeopleListing {
   id: number;
   fullName: string;
   cityId: number;
   email: string;
 }
 
-interface IPersonDetail {
+export interface IPersonDetail {
   id: number;
   fullName: string;
   cityId: number;
@@ -16,7 +16,7 @@ interface IPersonDetail {
 }
 
 type TPersonWithTotalCount = {
-  data: IPeopleListing;
+  data: IPeopleListing[];
   totalCount: number;
 };
 
