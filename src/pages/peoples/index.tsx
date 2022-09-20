@@ -2,17 +2,21 @@ import { useMemo, useEffect } from "react";
 
 import { useSearchParams } from "react-router-dom";
 import { Toolbar } from "../../shared/components";
+import { useTheBounce } from "../../shared/hooks";
 import { BasePageLayout } from "../../shared/layouts";
 import { PeopleService } from "../../shared/services/api/peoples";
 
 export const ListOfPeople: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { theBounce } = useTheBounce(3000);
+
   const search = useMemo(() => {
     return searchParams.get("search") || "";
   }, [searchParams]);
 
   useEffect(() => {
-    PeopleService.getAll(1, search)
+    theBounce(() => {
+      PeopleService.getAll(1, search)
     .then((result) => {
       if(result instanceof Error) {
         alert(result.message)
@@ -20,7 +24,8 @@ export const ListOfPeople: React.FC = () => {
       }
       else console.log(result)
     })
-  }, [search])
+    })
+  }, [theBounce, search])
 
   return (
     <BasePageLayout
