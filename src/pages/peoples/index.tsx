@@ -19,6 +19,7 @@ import { BasePageLayout } from "../../shared/layouts";
 import { useSearchParams } from "react-router-dom";
 import { Toolbar } from "../../shared/components";
 import { useTheBounce } from "../../shared/hooks";
+import { Environment } from "../../shared/environment";
 
 export const ListOfPeople: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -86,6 +87,10 @@ export const ListOfPeople: React.FC = () => {
               </TableRow>
             </TableBody>
           ))}
+
+          {totalCount === 0 && !isLoading && (
+            <caption>{Environment.LISTAGEM_VAZIAS}</caption>
+          )}
 
           <TableFooter>
             {isLoading && (
