@@ -6,7 +6,9 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  Paper
+  TableFooter,
+  LinearProgress,
+  Paper,
 } from "@mui/material";
 
 import {
@@ -40,6 +42,7 @@ export const ListOfPeople: React.FC = () => {
           alert(result.message);
           return;
         }
+        console.log(result.data);
         setTotalCount(result.totalCount);
         setRows(result.data);
       });
@@ -60,7 +63,11 @@ export const ListOfPeople: React.FC = () => {
         />
       }
     >
-      <TableContainer component={Paper} variant="outlined" sx={{ margin: 1, width: "auto" }}>
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ margin: 1, width: "auto" }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -79,6 +86,18 @@ export const ListOfPeople: React.FC = () => {
               </TableRow>
             </TableBody>
           ))}
+
+          <TableFooter>
+            {isLoading && (
+              <>
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <LinearProgress variant="indeterminate" />
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
+          </TableFooter>
         </Table>
       </TableContainer>
     </BasePageLayout>
