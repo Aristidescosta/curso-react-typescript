@@ -8,7 +8,14 @@ import {
   TableRow,
   TableFooter,
   LinearProgress,
+  Pagination,
   Paper,
+  IconButton,
+  Icon,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Button,
 } from "@mui/material";
 
 import {
@@ -16,7 +23,7 @@ import {
   PeopleService,
 } from "../../shared/services/api/peoples";
 import { BasePageLayout } from "../../shared/layouts";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Toolbar } from "../../shared/components";
 import { useTheBounce } from "../../shared/hooks";
 import { Environment } from "../../shared/environment";
@@ -27,17 +34,44 @@ export const ListOfPeople: React.FC = () => {
 
   const [rows, setRows] = useState<IPeopleListing[]>([]);
   const [totalCount, setTotalCount] = useState(0);
-
+  const [open, setOpen] = useState(false);
+  const [currentId, setCurrentId] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const search = useMemo(() => {
     return searchParams.get("search") || "";
   }, [searchParams]);
 
+  const handleClickOpen = (id: number) => {
+    setOpen(true);
+    setCurrentId(id);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const page = useMemo(() => {
+    return Number(searchParams.get("page") || "1");
+  }, [searchParams]);
+
+  const handleDelete = (id: number) => {
+    PeopleService.deleteById(id).then((result) => {
+      if (result instanceof Error) alert(result.message);
+      else {
+        setRows((oldRows) => {
+          return [...oldRows.filter((row) => row.id !== id)];
+        });
+      }
+    });
+    handleClose();
+  };
+
   useEffect(() => {
     setIsLoading(true);
     theBounce(() => {
-      PeopleService.getAll(1, search).then((result) => {
+      PeopleService.getAll(page, search).then((result) => {
         setIsLoading(false);
         if (result instanceof Error) {
           alert(result.message);
@@ -48,7 +82,7 @@ export const ListOfPeople: React.FC = () => {
         setRows(result.data);
       });
     });
-  }, [theBounce, search]);
+  }, [theBounce, search, page]);
 
   return (
     <BasePageLayout
@@ -59,7 +93,7 @@ export const ListOfPeople: React.FC = () => {
           newButtonText="Nova"
           searchText={searchParams.get("search") ?? ""}
           whenChangingSearchText={(texto) =>
-            setSearchParams({ search: texto }, { replace: true })
+            setSearchParams({ search: texto, page: "1" }, { replace: true })
           }
         />
       }
@@ -81,12 +115,39 @@ export const ListOfPeople: React.FC = () => {
           {rows.map((row) => (
             <TableBody key={row.id}>
               <TableRow>
-                <TableCell>Ações</TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => handleClickOpen(row.id)}
+                    size="small"
+                  >
+                    <Icon>delete</Icon>
+                  </IconButton>
+                  <IconButton size="small" onClick={() => navigate(`/people/details/${row.id}`)}>
+                    <Icon>edit</Icon>
+                  </IconButton>
+                </TableCell>
                 <TableCell>{row.fullName}</TableCell>
                 <TableCell>{row.email}</TableCell>
               </TableRow>
             </TableBody>
           ))}
+
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Deseja realmente apagar está pessoa?"}
+            </DialogTitle>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancelar</Button>
+              <Button onClick={() => handleDelete(currentId)} autoFocus>
+                Apagar
+              </Button>
+            </DialogActions>
+          </Dialog>
 
           {totalCount === 0 && !isLoading && (
             <caption>{Environment.LISTAGEM_VAZIAS}</caption>
@@ -102,6 +163,31 @@ export const ListOfPeople: React.FC = () => {
                 </TableRow>
               </>
             )}
+
+            {!isLoading &&
+              totalCount > 0 &&
+              totalCount > Environment.LIMITE_DE_LINHAS && (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <Pagination
+                        variant="outlined"
+                        page={page}
+                        onChange={(_, newPage) =>
+                          setSearchParams(
+                            { search, page: newPage.toString() },
+                            { replace: true }
+                          )
+                        }
+                        count={Math.ceil(
+                          totalCount / Environment.LIMITE_DE_LINHAS
+                        )}
+                        color="primary"
+                      />
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
           </TableFooter>
         </Table>
       </TableContainer>
