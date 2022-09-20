@@ -1,20 +1,8 @@
 import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard } from "../pages";
-import { Toolbar } from "../shared/components";
+import { Dashboard, ListOfCities } from "../pages";
 import { useDrawerContext } from "../shared/contexts";
-import { BasePageLayout } from "../shared/layouts";
 
-const Teste: React.FC = () => {
-  return (
-    <BasePageLayout
-      title="Cidades"
-      toolbar={<Toolbar showSearchInput newButtonText="Novo" showNewButton={false}/>}
-    >
-      Teste de Cidades
-    </BasePageLayout>
-  );
-};
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
@@ -28,8 +16,8 @@ export const AppRoutes = () => {
 
       {
         label: "Cidades",
-        path: "/city",
-        icon: "star",
+        path: "/cities",
+        icon: "location_city",
       },
     ]);
   }, [setDrawerOptions]);
@@ -38,7 +26,8 @@ export const AppRoutes = () => {
     <Routes>
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
       <Route path="/pagina-inicial" element={<Dashboard />} />
-      <Route path="/city" element={<Teste />} />
+      <Route path="/cities" element={<ListOfCities />} />
+      <Route path="/cities/details/:id" element={<ListOfCities />} />
     </Routes>
   );
 };
