@@ -15,7 +15,7 @@ import {
 import { Box } from "@mui/system";
 import { ReactNode } from "react";
 import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
-import avatar from "../../../assets/aristides.jpg";
+import avatar from "../../../assets/user1.jpeg";
 import { useAppThemeContext, useDrawerContext } from "../../contexts";
 
 interface ISideMenuProps {

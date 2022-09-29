@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DetailsTools } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
@@ -7,9 +7,17 @@ import {
   DialogTitle,
   DialogActions,
   Button,
-  LinearProgress,
 } from "@mui/material";
-import { PeopleService } from "../../shared/services/api/peoples";
+import { IPersonDetail, PeopleService } from "../../shared/services/api/peoples";
+import { Form } from "@unform/web";
+import { FormHandles } from "@unform/core";
+import { VTextFields } from "../../forms";
+
+interface IFormData{
+  fullName: string;
+  email: string;
+  cityId: string;
+}
 
 export const DetailPeople: React.FC = () => {
   const { id = "new" } = useParams<"id">();
@@ -17,6 +25,8 @@ export const DetailPeople: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [peopleName, setPeopleName] = useState("");
   const [title, setTitle] = useState("");
+
+  const formRef = useRef<FormHandles>(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +36,6 @@ export const DetailPeople: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("teste");
     if (id !== "new") {
       setIsLoading(true);
       PeopleService.getById(Number(id)).then((result) => {
@@ -42,7 +51,9 @@ export const DetailPeople: React.FC = () => {
     }
   }, [id]);
 
-  const handleSave = () => {};
+  const handleSave = (dados: IFormData) => {
+    console.log("Dados: ", dados)
+  };
 
   const handleDelete = (id: number) => {
     PeopleService.deleteById(id).then((result) => {
@@ -63,14 +74,21 @@ export const DetailPeople: React.FC = () => {
           showSaveAndBackButton
           showNewButton={id !== "new"}
           showDeleteButton={id !== "new"}
-          whenClickingOnSaveButton={handleSave}
+          whenClickingOnSaveButton={() => formRef.current?.submitForm()}
           whenClickingOnDeleteButton={() => handleDelete(Number(id))}
-          whenClickingOnSaveAndBackButton={handleSave}
+          whenClickingOnSaveAndBackButton={() => formRef.current?.submitForm()}
           whenClickingOnBackButton={() => navigate("/peoples")}
           whenClickingOnNewButton={() => navigate("/people/details/new")}
         />
       }
     >
+
+      <Form ref={formRef} onSubmit={handleSave}>
+        <VTextFields name="fullName"/>
+        <VTextFields name="email"/>
+        <VTextFields name="cityId"/>
+      </Form>
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -82,7 +100,6 @@ export const DetailPeople: React.FC = () => {
           <Button onClick={handleClose}>Ok</Button>
         </DialogActions>
       </Dialog>
-      {isLoading && <LinearProgress variant="indeterminate" />}
     </BasePageLayout>
   );
 };
