@@ -15,7 +15,7 @@ import {
 import { Box } from "@mui/system";
 import { ReactNode } from "react";
 import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
-import avatar from "../../../assets/user1.jpeg";
+import avatar from "../../../assets/aristides.jpg";
 import { useAppThemeContext, useDrawerContext } from "../../contexts";
 
 interface ISideMenuProps {
@@ -89,6 +89,7 @@ export const SideMenu: React.FC<ISideMenuProps> = ({ children }) => {
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
+  console.log("Drawer", isDrawerOpen)
   const { toggleTheme, themeName } = useAppThemeContext();
 
   return (

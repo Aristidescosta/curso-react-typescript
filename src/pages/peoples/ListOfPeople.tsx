@@ -91,6 +91,7 @@ export const ListOfPeople: React.FC = () => {
         <Toolbar
           showSearchInput
           newButtonText="Nova"
+          whenClickNew={() => navigate("/people/details/new")}
           searchText={searchParams.get("search") ?? ""}
           whenChangingSearchText={(texto) =>
             setSearchParams({ search: texto, page: "1" }, { replace: true })
