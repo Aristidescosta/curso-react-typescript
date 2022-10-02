@@ -11,7 +11,7 @@ export interface IPeopleListing {
 export interface IPersonDetail {
   id: number;
   fullName: string;
-  cityId: number;
+  cityId: string;
   email: string;
 }
 
@@ -72,8 +72,8 @@ const create = async (
 };
 
 const updateById = async (
-  dataPerson: IPersonDetail,
-  id: number
+  id: number,
+  dataPerson: IPersonDetail
 ): Promise<void | Error> => {
   try {
     await Api.put(`/peoples/${id}`, dataPerson);

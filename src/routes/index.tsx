@@ -29,7 +29,7 @@ export const AppRoutes = () => {
       <Route path="/pagina-inicial" element={<Dashboard />} />
       <Route path="/peoples" element={<ListOfPeople />} />
       <Route path="/people/details/:id" element={<DetailPeople />} />
-      <Route path="/people/details/new" element={<h1>Nova pessoa</h1>} />
+      <Route path="/people/details/new" element={<DetailPeople />} />
     </Routes>
   );
 };
