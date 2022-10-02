@@ -1,14 +1,22 @@
-import { useEffect, useState, useRef } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Button,
+  Box,
+  Paper,
+  Grid,
+  Typography,
+  LinearProgress,
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { FormHandles } from "@unform/core";
+import { Form } from "@unform/web";
+
+import { PeopleService } from "../../shared/services/api/peoples";
 import { DetailsTools } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
-import { Dialog, DialogTitle, DialogActions, Button } from "@mui/material";
-import {
-  IPersonDetail,
-  PeopleService,
-} from "../../shared/services/api/peoples";
-import { Form } from "@unform/web";
-import { FormHandles } from "@unform/core";
 import { VTextFields } from "../../forms";
 
 interface IFormData {
@@ -73,13 +81,12 @@ export const DetailPeople: React.FC = () => {
         setIsLoading(false);
 
         if (result instanceof Error) {
-          setOpen(true)
-          setTitle(result.message)
+          setOpen(true);
+          setTitle(result.message);
           return;
-        }
-        else{
-          setOpen(true)
-          setTitle("Dados da pessoa editado com sucesso")
+        } else {
+          setOpen(true);
+          setTitle("Dados da pessoa editado com sucesso");
         }
       });
     }
@@ -113,9 +120,59 @@ export const DetailPeople: React.FC = () => {
       }
     >
       <Form ref={formRef} onSubmit={handleSave}>
-        <VTextFields name="fullName" />
-        <VTextFields name="email" />
-        <VTextFields name="cityId" />
+        <Box
+          margin={1}
+          display="flex"
+          flexDirection="column"
+          component={Paper}
+          variant="outlined"
+        >
+          <Grid container direction="column" padding={2} spacing={2}>
+            {isLoading && (
+              <Grid item>
+                <LinearProgress variant="indeterminate" />
+              </Grid>
+            )}
+
+            <Grid item>
+              <Typography variant="h5">Geral</Typography>
+            </Grid>
+
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
+                <VTextFields
+                  fullWidth
+                  name="fullName"
+                  disabled={isLoading}
+                  label="Nome completo"
+                  onChange={e => setPeopleName(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
+                <VTextFields
+                  fullWidth
+                  name="email"
+                  disabled={isLoading}
+                  label="Email"
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row">
+              <Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
+                <VTextFields
+                  fullWidth
+                  name="cityId"
+                  disabled={isLoading}
+                  label="Cidade"
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
       </Form>
 
       <Dialog
