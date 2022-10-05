@@ -10,14 +10,12 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
-import { FormHandles } from "@unform/core";
-import { Form } from "@unform/web";
+import { useEffect, useState } from "react";
 
 import { PeopleService } from "../../shared/services/api/peoples";
 import { DetailsTools } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
-import { VTextFields } from "../../forms";
+import { VTextFields, VForm, useVForm } from "../../shared/components/forms";
 
 interface IFormData {
   fullName: string;
@@ -31,7 +29,7 @@ export const DetailPeople: React.FC = () => {
   const [peopleName, setPeopleName] = useState("");
   const [title, setTitle] = useState("");
 
-  const formRef = useRef<FormHandles>(null);
+  const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,8 +54,14 @@ export const DetailPeople: React.FC = () => {
           formRef.current?.setData(result);
         }
       });
+    } else {
+      formRef.current?.setData({
+        email: "",
+        fullName: "",
+        cityId: "",
+      });
     }
-  }, [id]);
+  }, [id, formRef]);
 
   const handleSave = async (dados: IFormData) => {
     setIsLoading(true);
@@ -70,7 +74,8 @@ export const DetailPeople: React.FC = () => {
           return;
         } else {
           alert("Pessoa adicionada com sucesso!");
-          navigate(`/people/details/${result}`);
+          if (isSaveAndClose()) navigate("/peoples");
+          else navigate(`/people/details/${result}`);
         }
       });
     } else {
@@ -87,6 +92,7 @@ export const DetailPeople: React.FC = () => {
         } else {
           setOpen(true);
           setTitle("Dados da pessoa editado com sucesso");
+          if (isSaveAndClose()) navigate("/peoples");
         }
       });
     }
@@ -108,18 +114,18 @@ export const DetailPeople: React.FC = () => {
       toolbar={
         <DetailsTools
           newButtonText="Nova"
-          showSaveAndBackButton
+          showSaveAndBackButton={id === "new"}
           showNewButton={id !== "new"}
           showDeleteButton={id !== "new"}
-          whenClickingOnSaveButton={() => formRef.current?.submitForm()}
+          whenClickingOnSaveButton={save}
           whenClickingOnDeleteButton={() => handleDelete(Number(id))}
-          whenClickingOnSaveAndBackButton={() => formRef.current?.submitForm()}
+          whenClickingOnSaveAndBackButton={saveAndClose}
           whenClickingOnBackButton={() => navigate("/peoples")}
           whenClickingOnNewButton={() => navigate("/people/details/new")}
         />
       }
     >
-      <Form ref={formRef} onSubmit={handleSave}>
+      <VForm ref={formRef} onSubmit={handleSave}>
         <Box
           margin={1}
           display="flex"
@@ -145,7 +151,7 @@ export const DetailPeople: React.FC = () => {
                   name="fullName"
                   disabled={isLoading}
                   label="Nome completo"
-                  onChange={e => setPeopleName(e.target.value)}
+                  onChange={(e) => setPeopleName(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -173,7 +179,7 @@ export const DetailPeople: React.FC = () => {
             </Grid>
           </Grid>
         </Box>
-      </Form>
+      </VForm>
 
       <Dialog
         open={open}

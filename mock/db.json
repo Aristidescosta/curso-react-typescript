@@ -18,7 +18,7 @@
     },
     {
       "id": 4,
-      "fullName": "Cristo",
+      "fullName": "Cristo Alterado",
       "email": "Angola",
       "cityId": "2"
     },
@@ -30,7 +30,7 @@
     },
     {
       "id": 6,
-      "fullName": "Dino",
+      "fullName": "Dino baka-mono",
       "email": "nasfdads",
       "cityId": "sfa"
     },
@@ -39,12 +39,6 @@
       "fullName": "André Baka",
       "email": "Luanda-GolfII",
       "cityId": "3"
-    },
-    {
-      "fullName": "Aristides Costa",
-      "email": "aristidiscosta200@gmail.com",
-      "cityId": "3",
-      "id": 8
     }
   ]
 }
