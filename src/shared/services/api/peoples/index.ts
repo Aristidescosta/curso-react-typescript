@@ -11,7 +11,7 @@ export interface IPeopleListing {
 export interface IPersonDetail {
   id: number;
   fullName: string;
-  cityId: string;
+  cityId: number;
   email: string;
 }
 

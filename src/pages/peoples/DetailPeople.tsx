@@ -11,17 +11,24 @@ import {
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import * as yup from "yup";
 
 import { PeopleService } from "../../shared/services/api/peoples";
 import { DetailsTools } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
-import { VTextFields, VForm, useVForm } from "../../shared/components/forms";
+import { VTextFields, VForm, useVForm, IVFormErrors } from "../../shared/forms";
 
 interface IFormData {
   fullName: string;
   email: string;
-  cityId: string;
+  cityId: number;
 }
+
+const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
+  cityId: yup.number().required(),
+  email: yup.string().required().email(),
+  fullName: yup.string().required().min(3),
+});
 
 export const DetailPeople: React.FC = () => {
   const { id = "new" } = useParams<"id">();
@@ -65,38 +72,54 @@ export const DetailPeople: React.FC = () => {
     }
   }, [id, formRef]);
 
-  const handleSave = async (dados: IFormData) => {
-    setIsLoading(true);
-    if (id === "new") {
-      await PeopleService.create(dados).then((result) => {
-        setIsLoading(false);
+  const handleSave = (data: IFormData) => {
+    formValidationSchema
+      .validate(data, { abortEarly: false })
+      .then((validatedData) => {
+        setIsLoading(true);
 
-        if (result instanceof Error) {
-          alert(result.message);
-          return;
-        } else {
-          setOpen(true);
-          setTitle("Pessoa adicionada com sucesso!");
-          msgResult = result;
-        }
-      });
-    } else {
-      await PeopleService.updateById(Number(id), {
-        id: Number(id),
-        ...dados,
-      }).then((result) => {
-        setIsLoading(false);
+        if (id === "new") {
+          PeopleService.create(validatedData).then((result) => {
+            setIsLoading(false);
 
-        if (result instanceof Error) {
-          setOpen(true);
-          setTitle(result.message);
-          return;
+            if (result instanceof Error) {
+              alert(result.message);
+              return;
+            } else {
+              setOpen(true);
+              setTitle("Pessoa adicionada com sucesso!");
+              msgResult = result;
+            }
+          });
         } else {
-          setOpen(true);
-          setTitle("Dados da pessoa editado com sucesso");
+          PeopleService.updateById(Number(id), {
+            id: Number(id),
+            ...validatedData,
+          }).then((result) => {
+            setIsLoading(false);
+
+            if (result instanceof Error) {
+              setOpen(true);
+              setTitle(result.message);
+              return;
+            } else {
+              setOpen(true);
+              setTitle("Dados da pessoa editado com sucesso");
+            }
+          });
         }
+      })
+      .catch((errors: yup.ValidationError) => {
+        const validationError: IVFormErrors = {};
+
+        errors.inner.forEach(error => {
+          if(!error.path) return;
+
+          validationError[error.path] = error.message;
+        })
+        console.log(validationError);
+        formRef.current?.setErrors(validationError)
       });
-    }
   };
 
   const handleDelete = (id: number) => {
@@ -190,7 +213,7 @@ export const DetailPeople: React.FC = () => {
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogActions>
-          <Button onClick={() => handleClose(msgResult)} >Ok</Button>
+          <Button onClick={() => handleClose(msgResult)}>Ok</Button>
         </DialogActions>
       </Dialog>
     </BasePageLayout>
