@@ -68,7 +68,7 @@ export const DetailPeople: React.FC = () => {
       formRef.current?.setData({
         email: "",
         fullName: "",
-        cityId: "",
+        cityId: undefined,
       });
     }
   }, [id, formRef]);

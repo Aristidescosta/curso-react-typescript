@@ -5,6 +5,18 @@
       "fullName": "Cília",
       "email": "cilia@gmai.com",
       "cityId": 1
+    },
+    {
+      "fullName": "Aristides Costa",
+      "email": "aristidiscosta200@gmail.com",
+      "cityId": 4,
+      "id": 3
+    },
+    {
+      "fullName": "Domingos",
+      "email": "domingos@gmai.com",
+      "cityId": 5,
+      "id": 4
     }
   ],
   "cities": [
