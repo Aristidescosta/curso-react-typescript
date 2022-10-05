@@ -32,10 +32,12 @@ export const DetailPeople: React.FC = () => {
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
 
   const [isLoading, setIsLoading] = useState(false);
+  let msgResult: number = 0;
 
-  const handleClose = () => {
+  const handleClose = (result: number) => {
     setOpen(false);
-    navigate("/peoples");
+    if (isSaveAndClose()) navigate("/peoples");
+    else navigate(`/people/details/${id !== "new" ? id : result}`);
   };
 
   const navigate = useNavigate();
@@ -73,9 +75,9 @@ export const DetailPeople: React.FC = () => {
           alert(result.message);
           return;
         } else {
-          alert("Pessoa adicionada com sucesso!");
-          if (isSaveAndClose()) navigate("/peoples");
-          else navigate(`/people/details/${result}`);
+          setOpen(true);
+          setTitle("Pessoa adicionada com sucesso!");
+          msgResult = result;
         }
       });
     } else {
@@ -92,7 +94,6 @@ export const DetailPeople: React.FC = () => {
         } else {
           setOpen(true);
           setTitle("Dados da pessoa editado com sucesso");
-          if (isSaveAndClose()) navigate("/peoples");
         }
       });
     }
@@ -114,7 +115,7 @@ export const DetailPeople: React.FC = () => {
       toolbar={
         <DetailsTools
           newButtonText="Nova"
-          showSaveAndBackButton={id === "new"}
+          showSaveAndBackButton
           showNewButton={id !== "new"}
           showDeleteButton={id !== "new"}
           whenClickingOnSaveButton={save}
@@ -189,7 +190,7 @@ export const DetailPeople: React.FC = () => {
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose}>Ok</Button>
+          <Button onClick={() => handleClose(msgResult)} >Ok</Button>
         </DialogActions>
       </Dialog>
     </BasePageLayout>

@@ -1,19 +1,13 @@
 {
   "peoples": [
     {
-      "id": 0,
-      "fullName": "Aristides Costa",
-      "email": "aristidiscosta200@gmail.com",
-      "cityId": "3"
-    },
-    {
       "id": 1,
       "fullName": "Kiala Miguel",
       "email": "kialamiguel@gmail.com"
     },
     {
       "id": 2,
-      "fullName": "Síria",
+      "fullName": "Círia Amor",
       "email": "kialamiguel@gmail.com"
     },
     {
@@ -39,6 +33,12 @@
       "fullName": "André Baka",
       "email": "Luanda-GolfII",
       "cityId": "3"
+    },
+    {
+      "id": 8,
+      "fullName": "Aristides Costa ",
+      "email": "aristidiscosta200@gmail.com",
+      "cityId": "GolfII"
     }
   ]
 }
