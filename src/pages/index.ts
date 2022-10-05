@@ -1,2 +1,5 @@
 export * from "./dashboard/index"
 export * from "./peoples/ListOfPeople"
+export * from "./peoples/DetailPeople"
+export * from "./city/ListOfCities"
+export * from "./city/DetailCity"

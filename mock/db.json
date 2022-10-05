@@ -9,42 +9,7 @@
       "id": 2,
       "fullName": "Círia Amor",
       "email": "kialamiguel@gmail.com"
-    },
-    {
-      "id": 4,
-      "fullName": "Cristo Alterado",
-      "email": "Angola",
-      "cityId": "2"
-    },
-    {
-      "fullName": "Kiala Miguel",
-      "email": "kialamiguel@gmail.com",
-      "cityId": "e",
-      "id": 5
-    },
-    {
-      "id": 6,
-      "fullName": "Dino baka-mono",
-      "email": "nasfdads",
-      "cityId": "sfa"
-    },
-    {
-      "id": 7,
-      "fullName": "André Baka",
-      "email": "Luanda-GolfII",
-      "cityId": "3"
-    },
-    {
-      "id": 8,
-      "fullName": "Aristides Costa ",
-      "email": "aristidiscosta200@gmail.com",
-      "cityId": "GolfII"
-    },
-    {
-      "fullName": "aer",
-      "email": "",
-      "cityId": "",
-      "id": 9
     }
-  ]
+  ],
+  "cities": []
 }

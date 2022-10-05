@@ -13,61 +13,57 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import * as yup from "yup";
 
-import { PeopleService } from "../../shared/services/api/Peoples";
+import { CityService } from "../../shared/services/api/City";
 import { DetailsTools } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
 import { VTextFields, VForm, useVForm, IVFormErrors } from "../../shared/forms";
 
 interface IFormData {
-  fullName: string;
-  email: string;
-  cityId: number;
+  name: string;
 }
 
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
-  cityId: yup.number().required(),
-  email: yup.string().required().email(),
-  fullName: yup.string().required().min(3),
+  name: yup.string().required().min(3),
 });
 
-export const DetailPeople: React.FC = () => {
+export const DetailCity: React.FC = () => {
+  const { formRef, save, saveAndClose, isSaveAndClose } = useVForm(); 
   const { id = "new" } = useParams<"id">();
+  const navigate = useNavigate();
+
+
+  const [cityName, setCityName] = useState("");
   const [open, setOpen] = useState(false);
-  const [peopleName, setPeopleName] = useState("");
   const [title, setTitle] = useState("");
 
-  const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
 
   const [isLoading, setIsLoading] = useState(false);
-  let msgResult: number = 0;
+  const [msgResult, setMsgResult] = useState<number>(0);
 
   const handleClose = (result: number) => {
+    console.log(result)
     setOpen(false);
-    if (isSaveAndClose()) navigate("/peoples");
-    else navigate(`/people/details/${id !== "new" ? id : result}`);
+    if (isSaveAndClose()) navigate("/city");
+    else navigate(`/city/details/${id !== "new" ? id : result}`);
   };
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (id !== "new") {
       setIsLoading(true);
-      PeopleService.getById(Number(id)).then((result) => {
+      CityService.getById(Number(id)).then((result) => {
         setIsLoading(false);
         if (result instanceof Error) {
           setTitle(result.message);
           setOpen(true);
         } else {
-          setPeopleName(result.fullName);
-          console.log(result);
+          setCityName(result.name);
           formRef.current?.setData(result);
         }
       });
     } else {
       formRef.current?.setData({
-        email: "",
-        fullName: "",
-        cityId: "",
+        name: "", 
       });
     }
   }, [id, formRef]);
@@ -79,7 +75,7 @@ export const DetailPeople: React.FC = () => {
         setIsLoading(true);
 
         if (id === "new") {
-          PeopleService.create(validatedData).then((result) => {
+          CityService.create(validatedData).then((result) => {
             setIsLoading(false);
 
             if (result instanceof Error) {
@@ -87,12 +83,12 @@ export const DetailPeople: React.FC = () => {
               return;
             } else {
               setOpen(true);
-              setTitle("Pessoa adicionada com sucesso!");
-              msgResult = result;
+              setTitle("Cidade adicionada com sucesso!");
+              setMsgResult(result);
             }
           });
         } else {
-          PeopleService.updateById(Number(id), {
+          CityService.updateById(Number(id), {
             id: Number(id),
             ...validatedData,
           }).then((result) => {
@@ -104,7 +100,7 @@ export const DetailPeople: React.FC = () => {
               return;
             } else {
               setOpen(true);
-              setTitle("Dados da pessoa editado com sucesso");
+              setTitle("Dados da cidade editado com sucesso");
             }
           });
         }
@@ -123,7 +119,7 @@ export const DetailPeople: React.FC = () => {
   };
 
   const handleDelete = (id: number) => {
-    PeopleService.deleteById(id).then((result) => {
+    CityService.deleteById(id).then((result) => {
       if (result instanceof Error) alert(result.message);
       else {
         setTitle("Registo apagado com sucesso");
@@ -134,7 +130,7 @@ export const DetailPeople: React.FC = () => {
 
   return (
     <BasePageLayout
-      title={id === "new" ? "Nova pessoa" : peopleName}
+      title={id === "new" ? "Nova cidade" : cityName}
       toolbar={
         <DetailsTools
           newButtonText="Nova"
@@ -144,8 +140,8 @@ export const DetailPeople: React.FC = () => {
           whenClickingOnSaveButton={save}
           whenClickingOnDeleteButton={() => handleDelete(Number(id))}
           whenClickingOnSaveAndBackButton={saveAndClose}
-          whenClickingOnBackButton={() => navigate("/peoples")}
-          whenClickingOnNewButton={() => navigate("/people/details/new")}
+          whenClickingOnBackButton={() => navigate("/city")}
+          whenClickingOnNewButton={() => navigate("/city/details/new")}
         />
       }
     >
@@ -172,32 +168,10 @@ export const DetailPeople: React.FC = () => {
               <Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
                 <VTextFields
                   fullWidth
-                  name="fullName"
+                  name="name"
                   disabled={isLoading}
-                  label="Nome completo"
-                  onChange={(e) => setPeopleName(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row">
-              <Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
-                <VTextFields
-                  fullWidth
-                  name="email"
-                  disabled={isLoading}
-                  label="Email"
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row">
-              <Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
-                <VTextFields
-                  fullWidth
-                  name="cityId"
-                  disabled={isLoading}
-                  label="Cidade"
+                  label="Nome"
+                  onChange={(e) => setCityName(e.target.value)}
                 />
               </Grid>
             </Grid>

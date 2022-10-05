@@ -19,28 +19,32 @@ import {
 } from "@mui/material";
 
 import {
-  IPeopleListing,
-  PeopleService,
-} from "../../shared/services/api/Peoples";
+  ICityListing,
+  CityService,
+} from "../../shared/services/api/City";
 import { BasePageLayout } from "../../shared/layouts";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Toolbar } from "../../shared/components";
 import { useTheBounce } from "../../shared/hooks";
 import { Environment } from "../../shared/environment";
 
-export const ListOfPeople: React.FC = () => {
+export const ListOfCity: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { theBounce } = useTheBounce();
-
-  const [rows, setRows] = useState<IPeopleListing[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  
+  const [rows, setRows] = useState<ICityListing[]>([]);
   const [currentId, setCurrentId] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const [totalCount, setTotalCount] = useState(0);
+  const [open, setOpen] = useState(false);
 
   const search = useMemo(() => {
     return searchParams.get("search") || "";
+  }, [searchParams]);
+
+  const page = useMemo(() => {
+    return Number(searchParams.get("page") || "1");
   }, [searchParams]);
 
   const handleClickOpen = (id: number) => {
@@ -52,12 +56,8 @@ export const ListOfPeople: React.FC = () => {
     setOpen(false);
   };
 
-  const page = useMemo(() => {
-    return Number(searchParams.get("page") || "1");
-  }, [searchParams]);
-
   const handleDelete = (id: number) => {
-    PeopleService.deleteById(id).then((result) => {
+    CityService.deleteById(id).then((result) => {
       if (result instanceof Error) alert(result.message);
       else {
         setRows((oldRows) => {
@@ -71,7 +71,7 @@ export const ListOfPeople: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
     theBounce(() => {
-      PeopleService.getAll(page, search).then((result) => {
+      CityService.getAll(page, search).then((result) => {
         setIsLoading(false);
         if (result instanceof Error) {
           alert(result.message);
@@ -86,12 +86,12 @@ export const ListOfPeople: React.FC = () => {
 
   return (
     <BasePageLayout
-      title="Pessoas"
+      title="Cidades"
       toolbar={
         <Toolbar
           showSearchInput
           newButtonText="Nova"
-          whenClickNew={() => navigate("/people/details/new")}
+          whenClickNew={() => navigate("/city/details/new")}
           searchText={searchParams.get("search") ?? ""}
           whenChangingSearchText={(texto) =>
             setSearchParams({ search: texto, page: "1" }, { replace: true })
@@ -108,8 +108,7 @@ export const ListOfPeople: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell width={100}>Ações</TableCell>
-              <TableCell>Nome completo</TableCell>
-              <TableCell>Email</TableCell>
+              <TableCell>Nome</TableCell>
             </TableRow>
           </TableHead>
 
@@ -123,12 +122,11 @@ export const ListOfPeople: React.FC = () => {
                   >
                     <Icon>delete</Icon>
                   </IconButton>
-                  <IconButton size="small" onClick={() => navigate(`/people/details/${row.id}`)}>
+                  <IconButton size="small" onClick={() => navigate(`/city/details/${row.id}`)}>
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>
-                <TableCell>{row.fullName}</TableCell>
-                <TableCell>{row.email}</TableCell>
+                <TableCell>{row.name}</TableCell>
               </TableRow>
             </TableBody>
           ))}
