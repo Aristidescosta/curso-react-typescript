@@ -17,6 +17,7 @@ import { PeopleService } from "../../shared/services/api/Peoples";
 import { DetailsTools } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
 import { VTextFields, VForm, useVForm, IVFormErrors } from "../../shared/forms";
+import { AutocompleteCity } from "./components/AutocompletePeoples";
 
 interface IFormData {
   fullName: string;
@@ -193,12 +194,7 @@ export const DetailPeople: React.FC = () => {
 
             <Grid container item direction="row">
               <Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
-                <VTextFields
-                  fullWidth
-                  name="cityId"
-                  disabled={isLoading}
-                  label="Cidade"
-                />
+                <AutocompleteCity isExternalLoading={isLoading}/>
               </Grid>
             </Grid>
           </Grid>

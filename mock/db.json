@@ -1,15 +1,36 @@
 {
   "peoples": [
     {
-      "id": 1,
-      "fullName": "Kiala Miguel",
-      "email": "kialamiguel@gmail.com"
-    },
-    {
       "id": 2,
-      "fullName": "Círia Amor",
-      "email": "kialamiguel@gmail.com"
+      "fullName": "Cília",
+      "email": "cilia@gmai.com",
+      "cityId": 1
     }
   ],
-  "cities": []
+  "cities": [
+    {
+      "name": "Luanda",
+      "id": 1
+    },
+    {
+      "name": "Ruanda",
+      "id": 2
+    },
+    {
+      "name": "Kongo",
+      "id": 3
+    },
+    {
+      "name": "Cidade grande de Luanda",
+      "id": 4
+    },
+    {
+      "name": "Angola",
+      "id": 5
+    },
+    {
+      "name": "Congo",
+      "id": 6
+    }
+  ]
 }
