@@ -18,15 +18,12 @@ import {
   Button,
 } from "@mui/material";
 
-import {
-  IPeopleListing,
-  PeopleService,
-} from "../../shared/services/api/Peoples";
-import { BasePageLayout } from "../../shared/layouts";
+import { IPeopleListing, PeopleService } from "../../shared/services/api";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Environment } from "../../shared/environment";
+import { BasePageLayout } from "../../shared/layouts";
 import { Toolbar } from "../../shared/components";
 import { useTheBounce } from "../../shared/hooks";
-import { Environment } from "../../shared/environment";
 
 export const ListOfPeople: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -123,7 +120,10 @@ export const ListOfPeople: React.FC = () => {
                   >
                     <Icon>delete</Icon>
                   </IconButton>
-                  <IconButton size="small" onClick={() => navigate(`/people/details/${row.id}`)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => navigate(`/people/details/${row.id}`)}
+                  >
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>

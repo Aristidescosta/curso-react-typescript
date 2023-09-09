@@ -17,6 +17,12 @@
       "email": "domingos@gmai.com",
       "cityId": 5,
       "id": 4
+    },
+    {
+      "fullName": "Aristides",
+      "email": "aristidiscosta200@gmail.com",
+      "cityId": 1,
+      "id": 5
     }
   ],
   "cities": [
@@ -43,6 +49,16 @@
     {
       "name": "Congo",
       "id": 6
+    },
+    {
+      "id": 7,
+      "name": "Aristides"
+    },
+    {
+      "fullName": "Aristides",
+      "email": "aristidiscosta200@gmail.com",
+      "cityId": 2,
+      "id": 8
     }
   ]
 }

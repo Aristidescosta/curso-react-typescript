@@ -1,3 +1,4 @@
+import { Box } from "@mui/system";
 import {
   TextField,
   Button,
@@ -6,7 +7,7 @@ import {
   Icon,
   InputAdornment,
 } from "@mui/material";
-import { Box } from "@mui/system";
+
 import { Environment } from "../../environment";
 
 interface IToolbarProps {

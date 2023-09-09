@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
   Box,
   Paper,
@@ -9,7 +10,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { ReactNode } from "react";
 
 interface IDetailsToolsProps {
   children?: ReactNode;

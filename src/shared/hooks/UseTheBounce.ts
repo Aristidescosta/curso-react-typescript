@@ -4,7 +4,8 @@ export const useTheBounce = (delay = 300, notDelayInFirstTime = true) => {
   const isFirstTime = useRef(notDelayInFirstTime);
   const theBouncing = useRef<NodeJS.Timeout>();
 
-  const theBounce = useCallback((func: () => void) => {
+  const theBounce = useCallback(
+    (func: () => void) => {
       if (isFirstTime.current) {
         isFirstTime.current = false;
         func();

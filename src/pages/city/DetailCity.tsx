@@ -1,3 +1,6 @@
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import * as yup from "yup";
 import {
   Dialog,
   DialogTitle,
@@ -9,14 +12,11 @@ import {
   Typography,
   LinearProgress,
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import * as yup from "yup";
 
-import { CityService } from "../../shared/services/api/City";
+import { VTextFields, VForm, useVForm, IVFormErrors } from "../../shared/forms";
+import { CityService } from "../../shared/services/api";
 import { DetailsTools } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
-import { VTextFields, VForm, useVForm, IVFormErrors } from "../../shared/forms";
 
 interface IFormData {
   name: string;
@@ -27,26 +27,23 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
 });
 
 export const DetailCity: React.FC = () => {
-  const { formRef, save, saveAndClose, isSaveAndClose } = useVForm(); 
+  const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
   const { id = "new" } = useParams<"id">();
   const navigate = useNavigate();
-
 
   const [cityName, setCityName] = useState("");
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
 
-
   const [isLoading, setIsLoading] = useState(false);
   const [msgResult, setMsgResult] = useState<number>(0);
 
   const handleClose = (result: number) => {
-    console.log(result)
+    console.log(result);
     setOpen(false);
     if (isSaveAndClose()) navigate("/city");
     else navigate(`/city/details/${id !== "new" ? id : result}`);
   };
-
 
   useEffect(() => {
     if (id !== "new") {
@@ -63,7 +60,7 @@ export const DetailCity: React.FC = () => {
       });
     } else {
       formRef.current?.setData({
-        name: "", 
+        name: "",
       });
     }
   }, [id, formRef]);
@@ -108,13 +105,13 @@ export const DetailCity: React.FC = () => {
       .catch((errors: yup.ValidationError) => {
         const validationError: IVFormErrors = {};
 
-        errors.inner.forEach(error => {
-          if(!error.path) return;
+        errors.inner.forEach((error) => {
+          if (!error.path) return;
 
           validationError[error.path] = error.message;
-        })
+        });
         console.log(validationError);
-        formRef.current?.setErrors(validationError)
+        formRef.current?.setErrors(validationError);
       });
   };
 

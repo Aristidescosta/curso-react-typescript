@@ -1,8 +1,14 @@
-import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard, ListOfPeople, DetailCity, ListOfCity, DetailPeople } from "../pages";
-import { useDrawerContext } from "../shared/contexts";
+import { useEffect } from "react";
 
+import { useDrawerContext } from "../shared/contexts";
+import {
+  Dashboard,
+  ListOfPeople,
+  DetailCity,
+  ListOfCity,
+  DetailPeople,
+} from "../pages";
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();

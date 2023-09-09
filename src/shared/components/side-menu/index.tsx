@@ -1,3 +1,5 @@
+import { Box } from "@mui/system";
+import { ReactNode } from "react";
 import {
   Avatar,
   Drawer,
@@ -12,11 +14,10 @@ import {
   ListItemText,
   useMediaQuery,
 } from "@mui/material";
-import { Box } from "@mui/system";
-import { ReactNode } from "react";
+
 import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
-import avatar from "../../../assets/user1.jpeg";
 import { useAppThemeContext, useDrawerContext } from "../../contexts";
+import avatar from "../../../assets/aristides.jpg";
 
 interface ISideMenuProps {
   children: ReactNode;
@@ -89,7 +90,7 @@ export const SideMenu: React.FC<ISideMenuProps> = ({ children }) => {
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
-  console.log("Drawer", isDrawerOpen)
+  console.log("Drawer", isDrawerOpen);
   const { toggleTheme, themeName } = useAppThemeContext();
 
   return (
@@ -145,9 +146,13 @@ export const SideMenu: React.FC<ISideMenuProps> = ({ children }) => {
             <List component="nav">
               <ListItemButton onClick={toggleTheme}>
                 <ListItemIcon>
-                  <Icon>{themeName === "dark" ? "light_mode" : "dark_mode"}</Icon>
+                  <Icon>
+                    {themeName === "dark" ? "light_mode" : "dark_mode"}
+                  </Icon>
                 </ListItemIcon>
-                <ListItemText primary={themeName === "dark" ? "Modo claro" : "Modo escuro"} />
+                <ListItemText
+                  primary={themeName === "dark" ? "Modo claro" : "Modo escuro"}
+                />
               </ListItemButton>
             </List>
           </Box>

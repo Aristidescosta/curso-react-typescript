@@ -1,8 +1,9 @@
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
-import { useField } from "@unform/core";
 import React, { useEffect, useMemo, useState } from "react";
-import { useTheBounce } from "../../../shared/hooks";
+import { useField } from "@unform/core";
+
 import { CityService } from "../../../shared/services/api/City";
+import { useTheBounce } from "../../../shared/hooks";
 
 type TAutocompleteCityOption = {
   id: number;
@@ -20,7 +21,9 @@ export const AutocompleteCity: React.FC<IAutocompleteCityProps> = ({
   const { fieldName, registerField, defaultValue, error, clearError } =
     useField("cityId");
 
-  const [selectedId, setSelectedId] = useState<number | undefined>(defaultValue);
+  const [selectedId, setSelectedId] = useState<number | undefined>(
+    defaultValue
+  );
   const [options, setOptions] = useState<TAutocompleteCityOption[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -78,7 +81,7 @@ export const AutocompleteCity: React.FC<IAutocompleteCityProps> = ({
       onChange={(_, newValue) => {
         setSelectedId(newValue?.id);
         setSearch("");
-				clearError();
+        clearError();
       }}
       options={options}
       renderInput={(params) => (

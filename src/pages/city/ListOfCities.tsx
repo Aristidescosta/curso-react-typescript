@@ -18,21 +18,18 @@ import {
   Button,
 } from "@mui/material";
 
-import {
-  ICityListing,
-  CityService,
-} from "../../shared/services/api/City";
-import { BasePageLayout } from "../../shared/layouts";
+import { CityService, ICityListing } from "../../shared/services/api";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Environment } from "../../shared/environment";
+import { BasePageLayout } from "../../shared/layouts";
 import { Toolbar } from "../../shared/components";
 import { useTheBounce } from "../../shared/hooks";
-import { Environment } from "../../shared/environment";
 
 export const ListOfCity: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { theBounce } = useTheBounce();
   const navigate = useNavigate();
-  
+
   const [rows, setRows] = useState<ICityListing[]>([]);
   const [currentId, setCurrentId] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -122,7 +119,10 @@ export const ListOfCity: React.FC = () => {
                   >
                     <Icon>delete</Icon>
                   </IconButton>
-                  <IconButton size="small" onClick={() => navigate(`/city/details/${row.id}`)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => navigate(`/city/details/${row.id}`)}
+                  >
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>

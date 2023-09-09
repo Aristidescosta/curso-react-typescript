@@ -1,9 +1,9 @@
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Toolbar } from "../../shared/components";
+
+import { CityService, PeopleService } from "../../shared/services/api";
 import { BasePageLayout } from "../../shared/layouts";
-import { CityService } from "../../shared/services/api/City";
-import { PeopleService } from "../../shared/services/api/Peoples";
+import { Toolbar } from "../../shared/components";
 
 export const Dashboard = () => {
   const [isLoadingCity, setIsLoadingCity] = useState(true);
@@ -11,8 +11,8 @@ export const Dashboard = () => {
   const [totalCountCity, setTotalCountCity] = useState(0);
   const [totalCountPeople, setTotalCountPeople] = useState(0);
   useEffect(() => {
-    setIsLoadingCity(true)
-    setIsLoadingPeople(true)
+    setIsLoadingCity(true);
+    setIsLoadingPeople(true);
 
     CityService.getAll(1).then((result) => {
       setIsLoadingCity(false);
@@ -22,7 +22,7 @@ export const Dashboard = () => {
       }
       setTotalCountCity(result.totalCount);
     });
-    
+
     PeopleService.getAll(1).then((result) => {
       setIsLoadingCity(false);
       if (result instanceof Error) {
@@ -52,10 +52,10 @@ export const Dashboard = () => {
                     alignItems="center"
                     display="flex"
                   >
-                    {!isLoadingCity && (
+                    {!isLoadingPeople && (
                       <Typography variant="h1">{totalCountPeople}</Typography>
                     )}
-                    {isLoadingCity && (
+                    {isLoadingPeople && (
                       <Typography variant="h6">Carregando...</Typography>
                     )}
                   </Box>

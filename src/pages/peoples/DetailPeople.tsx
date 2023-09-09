@@ -1,3 +1,6 @@
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import * as yup from "yup";
 import {
   Dialog,
   DialogTitle,
@@ -9,15 +12,12 @@ import {
   Typography,
   LinearProgress,
 } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import * as yup from "yup";
 
-import { PeopleService } from "../../shared/services/api/Peoples";
-import { DetailsTools } from "../../shared/components";
-import { BasePageLayout } from "../../shared/layouts";
 import { VTextFields, VForm, useVForm, IVFormErrors } from "../../shared/forms";
 import { AutocompleteCity } from "./components/AutocompletePeoples";
+import { PeopleService } from "../../shared/services/api";
+import { DetailsTools } from "../../shared/components";
+import { BasePageLayout } from "../../shared/layouts";
 
 interface IFormData {
   fullName: string;
@@ -113,13 +113,13 @@ export const DetailPeople: React.FC = () => {
       .catch((errors: yup.ValidationError) => {
         const validationError: IVFormErrors = {};
 
-        errors.inner.forEach(error => {
-          if(!error.path) return;
+        errors.inner.forEach((error) => {
+          if (!error.path) return;
 
           validationError[error.path] = error.message;
-        })
+        });
         console.log(validationError);
-        formRef.current?.setErrors(validationError)
+        formRef.current?.setErrors(validationError);
       });
   };
 
@@ -194,7 +194,7 @@ export const DetailPeople: React.FC = () => {
 
             <Grid container item direction="row">
               <Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
-                <AutocompleteCity isExternalLoading={isLoading}/>
+                <AutocompleteCity isExternalLoading={isLoading} />
               </Grid>
             </Grid>
           </Grid>
