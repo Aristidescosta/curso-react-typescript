@@ -24,7 +24,7 @@ export const Dashboard = () => {
     });
 
     PeopleService.getAll(1).then((result) => {
-      setIsLoadingCity(false);
+      setIsLoadingPeople(false);
       if (result instanceof Error) {
         alert(result.message);
         return;

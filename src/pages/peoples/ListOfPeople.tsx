@@ -55,8 +55,10 @@ export const ListOfPeople: React.FC = () => {
 
   const handleDelete = (id: number) => {
     PeopleService.deleteById(id).then((result) => {
-      if (result instanceof Error) alert(result.message);
-      else {
+      if (result instanceof Error) {
+        alert(result.message);
+        return;
+      } else {
         setRows((oldRows) => {
           return [...oldRows.filter((row) => row.id !== id)];
         });

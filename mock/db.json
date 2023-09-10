@@ -1,24 +1,6 @@
 {
   "peoples": [
     {
-      "id": 2,
-      "fullName": "Cília",
-      "email": "cilia@gmai.com",
-      "cityId": 1
-    },
-    {
-      "fullName": "Aristides Costa",
-      "email": "aristidiscosta200@gmail.com",
-      "cityId": 4,
-      "id": 3
-    },
-    {
-      "fullName": "Domingos",
-      "email": "domingos@gmai.com",
-      "cityId": 5,
-      "id": 4
-    },
-    {
       "fullName": "Aristides",
       "email": "aristidiscosta200@gmail.com",
       "cityId": 1,
@@ -43,22 +25,8 @@
       "id": 4
     },
     {
-      "name": "Angola",
-      "id": 5
-    },
-    {
       "name": "Congo",
       "id": 6
-    },
-    {
-      "id": 7,
-      "name": "Aristides"
-    },
-    {
-      "fullName": "Aristides",
-      "email": "aristidiscosta200@gmail.com",
-      "cityId": 2,
-      "id": 8
     }
   ]
 }
