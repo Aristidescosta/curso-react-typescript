@@ -1,11 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { LateralMenu } from "../shared/components/lateral-menu/LateralMenu"
 
 export const AppRoutes = () =>{
     const ROUTER = createBrowserRouter([
         {
             path: "/pagina-inicial",
             element: (
-                <h1>Olá mundo! Elemento principal</h1>
+                <LateralMenu />
             ),
             errorElement: (
                 <h1>Página não encontrada</h1>
